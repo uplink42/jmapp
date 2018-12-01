@@ -39,7 +39,7 @@ $sidedrawer-list-icon-size: 20;
     &.sidedrawer-left {
         background-color: $ab-background;
 
-        .sidedrawer-header-image {
+/*         .sidedrawer-header-image {
             color: $background-dark;
             height: $sidedrawer-header-image-size;
             width: $sidedrawer-header-image-size;
@@ -47,7 +47,7 @@ $sidedrawer-list-icon-size: 20;
             padding: 0;
             margin-bottom: $sidedrawer-header-image-offset-bottom;
             margin-top: $sidedrawer-header-image-offset-top;
-        }
+        } */
 
         .footnote {
             color: rgba($ab-color, 0.5);
@@ -56,9 +56,15 @@ $sidedrawer-list-icon-size: 20;
 
     .sidedrawer-header {
         background-color: $ab-background;
+        height: 75;
+        margin-bottom: 20px;
 
         .sidedrawer-header-brand {
             color: $ab-color;
+
+            &.primary {
+                font-weight: bold;
+            }
         }
     }
 
