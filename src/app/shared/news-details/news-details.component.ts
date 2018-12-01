@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { screen } from "tns-core-modules/platform";
 import { View } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
@@ -13,20 +13,21 @@ import { NewsApiService } from "~/app/services/api.service";
     styleUrls: ["./news-details.component.scss"],
     templateUrl: "./news-details.component.html",
 })
-export class NewsDetailsComponent implements OnInit {
-
+export class NewsDetailsComponent implements OnInit, AfterContentInit {
     static IMAGE_MIN_HEIGHT = 48;
-    @Input() offset: number;
-    @Input() imageOpacity: number = 1;
-    @Input() dockedLabelOpacity: number = 0;
-    @Input() dockedLabelTextOpacity: number = 0;
     @Input() article: Article;
-
     @ViewChild("image") imageRef: ElementRef;
     @ViewChild("title") titleRef: ElementRef;
     @ViewChild("imageContainer") imageContainerRef: ElementRef;
 
-    slug: string = "noticias";
+    slug = "noticias";
+    isLoaded = false;
+    imageUrl: string;
+    imageOpacity = 1;
+    offset: number;
+    dockedLabelOpacity = 0;
+    dockedLabelTextOpacity = 0;
+    viewLoaded = false;
 
     constructor(public api: NewsApiService, private animationsService: AnimationsService) {
         this.offset = this.animationsService.animationOffset;
@@ -37,7 +38,13 @@ export class NewsDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.article.codigo);
+        this.imageUrl = this.api.getImageUrl(this.slug, this.article.image_file_name) || this.api.defaultImage;
+    }
+
+    ngAfterContentInit() {
+        setTimeout(() => {
+            this.viewLoaded = true;
+        }, 500);
     }
 
     animateOut(view: View) {
@@ -66,6 +73,13 @@ export class NewsDetailsComponent implements OnInit {
         this.applyImageTransition(offset, imageHeight);
         this.applyTitleTransition(offset, imageHeight);
         this.applyDockHeaderTransition(offset, imageHeight);
+    }
+
+    loadContent() {
+        this.api.getArticle(+this.article.codigo).then(article => {
+            this.article = article;
+            this.isLoaded = true;
+        });
     }
 
     private applyImageTransition(scrollOffset: number, imageHeight: number) {

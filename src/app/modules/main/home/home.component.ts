@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { Article } from "~/app/models/article.model";
 import { Category } from "~/app/models/category.model";
+import { BaseComponent } from "~/app/modules/base.component";
 import { NewsApiService } from "~/app/services/api.service";
 import { NewsService } from "~/app/services/news.service";
 
@@ -10,16 +11,18 @@ import { NewsService } from "~/app/services/news.service";
     moduleId: module.id,
     templateUrl: "./home.component.html",
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseComponent implements OnInit, AfterViewInit {
     static eagerLoadedCategories = 2;
 
+    title: string = "JM Madeira";
     categories: Category[];
     articles: { [key: number]: Article[] } = {};
     tabSelectedIndex: number = 0;
     loadedCategories: number[] = [];
+    viewLoaded = false;
 
     constructor(private api: NewsApiService, private news: NewsService) {
-        // Use the component constructor to inject providers.
+        super();
     }
 
     ngOnInit(): void {
@@ -30,10 +33,16 @@ export class HomeComponent implements OnInit {
         this.getCategoryNews(initialCategory);
     }
 
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.viewLoaded = true;
+        });
+    }
+
     getCategoryIndex(idCategory: number) {
         const category = this.categories.find(c => c.id === idCategory);
 
-        return this.categories.indexOf(category);
+        return category ? this.categories.indexOf(category) : -1;
     }
 
     getCategoryId(index: number) {

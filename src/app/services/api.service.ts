@@ -6,6 +6,8 @@ import { apiConfig } from "~/app/config/api";
     providedIn: "root",
 })
 export class NewsApiService {
+    defaultImage: "https://www.jm-madeira.pt/file/index/default";
+
     constructor(private http: HttpClient) {}
 
     getHeadlines(skip: number = 0) {

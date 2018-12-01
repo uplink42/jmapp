@@ -7,6 +7,7 @@
         "noEmitHelpers": true,
         "noEmitOnError": true,
         "skipLibCheck": false,
+        "strictNullChecks": true,
         "lib": [
             "es7",
             "dom",

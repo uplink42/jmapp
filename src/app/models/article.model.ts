@@ -1,5 +1,5 @@
 export interface Article {
-    codigo?: string;
+    codigo: string;
     categoria?: string;
     titulo?: string;
     alias?: string;

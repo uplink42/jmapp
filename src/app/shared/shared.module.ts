@@ -1,6 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
+import { BaseComponent } from "~/app/modules/base.component";
 import { NewsListComponent } from "~/app/shared/news-list/news-list.component";
 import { CustomActionBarComponent } from "./action-bar/custom-action-bar.component";
 import { NewsDetailsComponent } from "./news-details/news-details.component";
@@ -19,6 +20,7 @@ if (module['hot']) {
         NewsListComponent,
         NewsDetailsComponent,
         CustomActionBarComponent,
+        BaseComponent,
     ],
     exports: [
         NewsListComponent,

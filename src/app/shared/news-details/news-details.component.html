@@ -1,24 +1,30 @@
 <GridLayout>
-    <ScrollView (scroll)="onScroll($event)">
+    <ScrollView (scroll)="onScroll($event)" *ngIf="viewLoaded">
         <StackLayout *ngIf="article" [minHeight]="minHeight">
-            <GridLayout #imageContainer [translateY]="offset" backgroundColor="#000000" class="header-background-view" (loaded)="animateIn(imageContainer,300,0)"
-                class="landmark-header">
-                <Image #image [opacity]="imageOpacity" [src]="api.getImageUrl(slug, article.image_file_name) || api.defaultImage" stretch="aspectFit"></Image>
+            <GridLayout #imageContainer backgroundColor="#000000" class="header-background-view"
+            class="article-header">
+                <Image #image [opacity]="imageOpacity" [src]="imageUrl" stretch="aspectFit"></Image>
             </GridLayout>
 
-            <GridLayout #landmarkLayout rows="auto,auto,auto,auto" columns="auto,auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
-                class="landmark-content">
+            <GridLayout #articleLayout rows="auto,auto,auto,auto" columns="auto,auto,*" translateY="500" (loaded)="animateIn(articleLayout,300,150)"
+                class="article-content">
 
                 <Label #title colSpan="3" textWrap="true" [text]="article.titulo" scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
-                    class="landmark-name"></Label>
+                    class="article-name"></Label>
 
-                <StackLayout #noticiaStat row="1" translateY="500" (loaded)="animateIn(noticiaStat,250,350)" orientation="horizontal">
-                    <Label [text]="article.autor_nome" class="landmark-stat-label"></Label>
+                <StackLayout #articleStat row="1" col="2" translateY="500" (loaded)="animateIn(articleStat,250,450)" orientation="horizontal">
+                    <Label [text]="article.autor_nome" class="article-stat-label"></Label>
                 </StackLayout>
 
-                <HtmlView [html]="article.introducao" #landmarkDescription row="2" colSpan="3" translateY="500" textWrap="true" [text]="article.introducao"
-                (loaded)="animateIn(landmarkDescription,250,500)"
-                class="landmark-description"></HtmlView>
+                <HtmlView [html]="article.introducao" #articleDescription row="2" colSpan="3" translateY="500" textWrap="true" [text]="article.introducao"
+                (loaded)="animateIn(articleDescription,250,500)"
+                class="article-description"></HtmlView>
+
+                <StackLayout row="3" colSpan="3">
+                    <Button class="btn btn-primary btn-active" id="button" text="Ler mais" (tap)="loadContent()" *ngIf="!isLoaded"></Button>
+                    <HtmlView *ngIf="isLoaded" [html]="article.conteudo_noticia" #articleBody textWrap="true"
+                    class="article-description"></HtmlView>
+                </StackLayout>
             </GridLayout>
         </StackLayout>
     </ScrollView>
@@ -26,4 +32,6 @@
     <GridLayout #dockedLabelContainer verticalAlignment="top" height="48" [opacity]="dockedLabelOpacity" class="docked-label-container" *ngIf="article">
         <Label [text]="article.titulo" [opacity]="dockedLabelTextOpacity" class="docked-label-text"></Label>
     </GridLayout>
+
+    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator" [visibility]="listLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
 </GridLayout>

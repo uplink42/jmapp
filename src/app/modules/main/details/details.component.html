@@ -1,4 +1,4 @@
-<CustomActionBar></CustomActionBar>
+<CustomActionBar [title]="title"></CustomActionBar>
 
 <TabView [selectedIndex]="tabSelectedIndex" (selectedIndexChanged)="onSelectedIndexChanged($event)" (loaded)="onTabViewLoaded($event)">
     <ng-container *ngFor="let article of news.articles[idCategory]">

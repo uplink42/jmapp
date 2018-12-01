@@ -1,7 +1,9 @@
-<CustomActionBar></CustomActionBar>
+<CustomActionBar [title]="title"></CustomActionBar>
 
 <GridLayout class="page page-content">
-    <TabView [(ngModel)]="tabSelectedIndex"
+    <TabView
+    ng-if="viewLoaded"
+    [(ngModel)]="tabSelectedIndex"
     class="main" tabBackgroundColor="#3A53FF" androidSelectedTabHighlightColor="#FFF" tabTextColor="#FFF" selectedTabTextColor="#FFF"
     tabTextFontSize="14" androidOffscreenTabLimit="1" (selectedIndexChanged)="onSelectedIndexChanged($event)">
         <ng-container *ngFor="let category of categories">
@@ -13,4 +15,6 @@
             </StackLayout>
         </ng-container>
     </TabView>
+
+    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator" [visibility]="listLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
 </GridLayout>
