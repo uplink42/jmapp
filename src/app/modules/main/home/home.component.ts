@@ -33,12 +33,6 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterViewIni
         this.getCategoryNews(initialCategory);
     }
 
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.viewLoaded = true;
-        });
-    }
-
     getCategoryIndex(idCategory: number) {
         const category = this.categories.find(c => c.id === idCategory);
 

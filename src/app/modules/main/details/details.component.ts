@@ -31,7 +31,7 @@ export class DetailsComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe(params => {
-            this.idArticle  = params.id;
+            this.idArticle = params.id;
             this.idCategory = params.category;
             if (!this.idArticle || ! this.idCategory) {
                 console.error("No article/category ID sent");
