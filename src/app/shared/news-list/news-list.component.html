@@ -1,0 +1,13 @@
+<GridLayout height="100%">
+    <ListView #list [items]="items" (loadMoreItems)="loadMoreItems()">
+        <ng-template let-item="item">
+            <GridLayout class="list-item" (tap)="navigateTo($event, item)">
+                <Image [src]="api.getImageUrl(slug, item.image_file_name) || api.defaultImage"></Image>
+                <Label [text]="item.titulo" class="item-title" textWrap="true"></Label>
+            </GridLayout>
+        </ng-template>
+    </ListView>
+    <AbsoluteLayout #animatingImageContainer opacity="0" class="animating-image-container">
+        <Image #animatingImage width="100%"></Image>
+    </AbsoluteLayout>
+</GridLayout>
