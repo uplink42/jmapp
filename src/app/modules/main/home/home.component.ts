@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import * as app from "tns-core-modules/application";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { Article } from "~/app/models/article.model";
 import { Category } from "~/app/models/category.model";
@@ -82,10 +80,5 @@ export class HomeComponent implements OnInit {
         this.news.getArticlesByCategory(idCategory, skip).then(categoryArticles => {
             this.articles = { ...this.articles, [idCategory]: categoryArticles };
         });
-    }
-
-    onDrawerButtonTap(): void {
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.showDrawer();
     }
 }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { EventData, isAndroid, isIOS } from "tns-core-modules/ui/page/page";
-import { TabView } from "tns-core-modules/ui/tab-view/tab-view";
+import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view/tab-view";
 import { Article } from "~/app/models/article.model";
 import { NewsApiService } from "~/app/services/api.service";
 import { NewsService } from "~/app/services/news.service";
@@ -15,10 +15,13 @@ import { NewsService } from "~/app/services/news.service";
     templateUrl: "./details.component.html",
 })
 export class DetailsComponent implements OnInit {
+    static eagerLoadedArticles = 5;
+
     idCategory: number;
     idArticle: number;
     tabSelectedIndex: number;
-    data: any;
+    article: Article;
+    loadedArticles: number[] = [];
 
     constructor(public api: NewsApiService, private activatedRoute: ActivatedRoute,
                 private news: NewsService) {
@@ -36,14 +39,19 @@ export class DetailsComponent implements OnInit {
                 return;
             }
 
-            this.tabSelectedIndex = this.getTabIndex();
-            console.log("ix", this.tabSelectedIndex);
+            this.tabSelectedIndex = this.getTabIndex(this.idArticle);
+            if (this.tabSelectedIndex >= 0) {
+                this.getLocalArticleData();
+                this.loadAdjacentArticles();
+            } else {
+                // get remote
+            }
         });
     }
 
-    getTabIndex() {
+    getTabIndex(idArticle) {
         for (const index in this.news.articles[this.idCategory]) {
-            if (this.news.articles[this.idCategory][index].codigo === this.idArticle.toString()) {
+            if (this.news.articles[this.idCategory][index].codigo === idArticle.toString()) {
                 return <number><unknown>index;
             }
         }
@@ -51,8 +59,19 @@ export class DetailsComponent implements OnInit {
         return -1;
     }
 
-    onSelectedIndexChanged(event) {
-        return false;
+    getArticleId(index: number) {
+        return this.news.articles[this.idCategory][index].codigo;
+    }
+
+    onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
+        if (args.oldIndex !== -1) {
+            const index = args.newIndex;
+            this.tabSelectedIndex = index;
+
+            this.idArticle = +this.getArticleId(index);
+            this.loadAdjacentArticles();
+            this.getLocalArticleData();
+        }
     }
 
     onTabViewLoaded(event: EventData) {
@@ -66,5 +85,22 @@ export class DetailsComponent implements OnInit {
             tabLayout.getLayoutParams().height = 0;
             tabLayout.requestLayout();
         }
+    }
+
+    getLocalArticleData() {
+        this.article = this.news.articles[this.idCategory].find(article => article.codigo === this.idArticle.toString());
+    }
+
+    loadAdjacentArticles() {
+        this.news.articles[this.idCategory].forEach((article, index) => {
+            const id = parseInt(article.codigo, 10);
+            if (Math.abs(index - this.tabSelectedIndex) <= DetailsComponent.eagerLoadedArticles) {
+                this.loadedArticles = [...this.loadedArticles, id];
+            }
+        });
+    }
+
+    isArticleLoaded(idArticle: number) {
+        return this.loadedArticles.includes(+idArticle);
     }
 }

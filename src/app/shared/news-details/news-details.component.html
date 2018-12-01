@@ -1,0 +1,29 @@
+<GridLayout>
+    <ScrollView (scroll)="onScroll($event)">
+        <StackLayout *ngIf="article" [minHeight]="minHeight">
+            <GridLayout #imageContainer [translateY]="offset" backgroundColor="#000000" class="header-background-view" (loaded)="animateIn(imageContainer,300,0)"
+                class="landmark-header">
+                <Image #image [opacity]="imageOpacity" [src]="api.getImageUrl(slug, article.image_file_name) || api.defaultImage" stretch="aspectFit"></Image>
+            </GridLayout>
+
+            <GridLayout #landmarkLayout rows="auto,auto,auto,auto" columns="auto,auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
+                class="landmark-content">
+
+                <Label #title colSpan="3" textWrap="true" [text]="article.titulo" scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
+                    class="landmark-name"></Label>
+
+                <StackLayout #noticiaStat row="1" translateY="500" (loaded)="animateIn(noticiaStat,250,350)" orientation="horizontal">
+                    <Label [text]="article.autor_nome" class="landmark-stat-label"></Label>
+                </StackLayout>
+
+                <HtmlView [html]="article.introducao" #landmarkDescription row="2" colSpan="3" translateY="500" textWrap="true" [text]="article.introducao"
+                (loaded)="animateIn(landmarkDescription,250,500)"
+                class="landmark-description"></HtmlView>
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+
+    <GridLayout #dockedLabelContainer verticalAlignment="top" height="48" [opacity]="dockedLabelOpacity" class="docked-label-container" *ngIf="article">
+        <Label [text]="article.titulo" [opacity]="dockedLabelTextOpacity" class="docked-label-text"></Label>
+    </GridLayout>
+</GridLayout>
