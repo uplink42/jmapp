@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { Article } from "~/app/models/article.model";
 import { Category } from "~/app/models/category.model";
@@ -10,8 +10,9 @@ import { NewsService } from "~/app/services/news.service";
     selector: "Home",
     moduleId: module.id,
     templateUrl: "./home.component.html",
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class HomeComponent extends BaseComponent implements OnInit, AfterContentInit {
     static eagerLoadedCategories = 2;
 
     title: string = "JM Madeira";
@@ -19,17 +20,15 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterViewIni
     articles: { [key: number]: Article[] } = {};
     tabSelectedIndex: number = 0;
     loadedCategories: number[] = [];
-    viewLoaded = false;
 
-    constructor(private api: NewsApiService, private news: NewsService) {
-        super();
+    constructor(private api: NewsApiService, private news: NewsService, private cdrchild: ChangeDetectorRef) {
+        super(cdrchild);
     }
 
     ngOnInit(): void {
         this.categories = this.news.getCategories();
         const initialCategory = this.categories[0].id;
 
-        this.loadAdjacentCategories(initialCategory);
         this.getCategoryNews(initialCategory);
     }
 
@@ -49,22 +48,8 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterViewIni
             this.tabSelectedIndex = index;
             const id = this.getCategoryId(index);
 
-            this.loadAdjacentCategories(id);
             this.getCategoryNews(id);
         }
-    }
-
-    loadAdjacentCategories(idCategory: number) {
-        for (let i = 0; i <= HomeComponent.eagerLoadedCategories; i += 1) {
-            const next = idCategory + i;
-            if (!this.isCategoryLoaded(next) && this.getCategoryIndex(next) >= 0) {
-                this.loadedCategories.push(next);
-            }
-        }
-    }
-
-    isCategoryLoaded(idCategory: number) {
-        return this.loadedCategories.includes(idCategory);
     }
 
     getCategoryNews(idCategory: number) {

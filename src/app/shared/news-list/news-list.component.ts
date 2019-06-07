@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Article } from "~/app/models/article.model";
 import { NewsApiService } from "~/app/services/api.service";
@@ -8,6 +8,7 @@ import { NewsApiService } from "~/app/services/api.service";
     moduleId: module.id,
     styleUrls: ["./news-list.component.scss"],
     templateUrl: "./news-list.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewsListComponent implements OnInit {
     @Input() items;
@@ -32,6 +33,6 @@ export class NewsListComponent implements OnInit {
     }
 
     navigateTo(event, article: Article) {
-        this.router.navigate([`/home/details/${this.category}/${article.codigo}`]);
+        this.router.navigate([`/main/details/${this.category}/${article.codigo}`]);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { EventData, isAndroid, isIOS } from "tns-core-modules/ui/page/page";
 import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view/tab-view";
@@ -25,8 +25,8 @@ export class DetailsComponent extends BaseComponent implements OnInit {
     loadedArticles: number[] = [];
 
     constructor(public api: NewsApiService, private activatedRoute: ActivatedRoute,
-                private news: NewsService, private categoryService: CategoryService) {
-                    super();
+                public news: NewsService, private categoryService: CategoryService, private cdrchild: ChangeDetectorRef) {
+                    super(cdrchild);
     }
 
     ngOnInit(): void {

@@ -3,8 +3,9 @@
 <TabView [selectedIndex]="tabSelectedIndex" (selectedIndexChanged)="onSelectedIndexChanged($event)" (loaded)="onTabViewLoaded($event)">
     <ng-container *ngFor="let article of news.articles[idCategory]">
         <StackLayout *tabItem="{title: article.codigo}">
+            <!-- *ngIf="isArticleLoaded(article.codigo)" -->
             <StackLayout>
-                <NewsDetails [article]="article" *ngIf="isArticleLoaded(article.codigo)"></NewsDetails>
+                <NewsDetails [article]="article"></NewsDetails>
             </StackLayout>
         </StackLayout>
     </ng-container>

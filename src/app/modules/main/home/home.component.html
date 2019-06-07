@@ -1,15 +1,19 @@
 <CustomActionBar [title]="title"></CustomActionBar>
 
-<GridLayout class="page page-content">
+<GridLayout class="page page-content" ng-if="viewLoaded">
     <TabView
-    ng-if="viewLoaded"
     [(ngModel)]="tabSelectedIndex"
-    class="main" tabBackgroundColor="#ce242b" androidSelectedTabHighlightColor="#FFF" tabTextColor="#FFF" selectedTabTextColor="#FFF"
-    tabTextFontSize="14" androidOffscreenTabLimit="1" (selectedIndexChanged)="onSelectedIndexChanged($event)">
+    class="main" tabBackgroundColor="#ce242b"
+    androidSelectedTabHighlightColor="#FFF"
+    tabTextColor="#FFF"
+    selectedTabTextColor="#FFF"
+    tabTextFontSize="14"
+    (selectedIndexChanged)="onSelectedIndexChanged($event)">
         <ng-container *ngFor="let category of categories">
             <StackLayout *tabItem="{title: category.name}">
+                <!-- *ngIf="isCategoryLoaded(category.id)"  -->
                 <StackLayout>
-                    <NewsList [items]="articles[category.id]" *ngIf="isCategoryLoaded(category.id)" (load)="loadMoreArticles($event)"
+                    <NewsList [items]="articles[category.id]" (load)="loadMoreArticles($event)"
                     [category]="category.id"></NewsList>
                 </StackLayout>
             </StackLayout>

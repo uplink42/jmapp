@@ -5,6 +5,7 @@ import { SharedModule } from "~/app/shared/shared.module";
 import { DetailsComponent } from "./details/details.component";
 import { HomeComponent } from "./home/home.component";
 import { MainRoutingModule } from "./main-routing.module";
+import { MultimediaComponent } from "./multimedia/multimedia.component";
 
 // tslint:disable-next-line
 if (module['hot']) {
@@ -21,6 +22,7 @@ if (module['hot']) {
     declarations: [
         HomeComponent,
         DetailsComponent,
+        MultimediaComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA,

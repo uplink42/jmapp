@@ -4,9 +4,11 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { DetailsComponent } from "./details/details.component";
 import { HomeComponent } from "./home/home.component";
+import { MultimediaComponent } from "./multimedia/multimedia.component";
 
 const routes: Routes = [
     { path: "", component: HomeComponent },
+    { path: "multimedia", component: MultimediaComponent },
     { path: "details/:category/:id", component: DetailsComponent },
 ];
 

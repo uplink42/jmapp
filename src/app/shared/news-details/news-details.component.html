@@ -3,21 +3,22 @@
         <StackLayout *ngIf="article" [minHeight]="minHeight">
             <GridLayout #imageContainer backgroundColor="#000000" class="header-background-view"
             class="article-header">
-                <Image #image [opacity]="imageOpacity" [src]="imageUrl" stretch="aspectFit"></Image>
+                <FrescoDrawee #image verticalAlignment="center"
+                    placeholderImageUri="res://ns_logo"
+                    aspectRatio="2"
+                    [imageUri]="imageUrl"></FrescoDrawee>
             </GridLayout>
 
-            <GridLayout #articleLayout rows="auto,auto,auto,auto" columns="auto,auto,*" translateY="500" (loaded)="animateIn(articleLayout,300,150)"
+            <GridLayout #articleLayout rows="auto,auto,auto,auto" columns="auto,auto,*"
                 class="article-content">
 
-                <Label #title colSpan="3" textWrap="true" [text]="article.titulo" scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
-                    class="article-name"></Label>
+                <Label #title colSpan="3" textWrap="true" [text]="article.titulo" class="article-name"></Label>
 
-                <StackLayout #articleStat row="1" col="2" translateY="500" (loaded)="animateIn(articleStat,250,450)" orientation="horizontal">
+                <StackLayout #articleStat row="1" col="2" orientation="horizontal">
                     <Label [text]="article.autor_nome" class="article-stat-label"></Label>
                 </StackLayout>
 
-                <HtmlView [html]="article.introducao" #articleDescription row="2" colSpan="3" translateY="500" textWrap="true" [text]="article.introducao"
-                (loaded)="animateIn(articleDescription,250,500)"
+                <HtmlView [html]="article.introducao" #articleDescription row="2" colSpan="3" textWrap="true" [text]="article.introducao"
                 class="article-description"></HtmlView>
 
                 <StackLayout row="3" colSpan="3">
@@ -33,5 +34,5 @@
         <Label [text]="article.titulo" [opacity]="dockedLabelTextOpacity" class="docked-label-text"></Label>
     </GridLayout>
 
-    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator" [visibility]="listLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ActivityIndicator [busy]="!isLoaded" width="50" height="50" class="activity-indicator" [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
 </GridLayout>

@@ -1,9 +1,10 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { screen } from "tns-core-modules/platform";
 import { View } from "tns-core-modules/ui/core/view";
 import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { ScrollEventData } from "tns-core-modules/ui/scroll-view";
 import { Article } from "~/app/models/article.model";
+import { BaseComponent } from "~/app/modules/base.component";
 import { AnimationsService } from "~/app/services/animations.service";
 import { NewsApiService } from "~/app/services/api.service";
 
@@ -12,13 +13,14 @@ import { NewsApiService } from "~/app/services/api.service";
     moduleId: module.id,
     styleUrls: ["./news-details.component.scss"],
     templateUrl: "./news-details.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewsDetailsComponent implements OnInit, AfterContentInit {
+export class NewsDetailsComponent extends BaseComponent implements OnInit, AfterContentInit {
     static IMAGE_MIN_HEIGHT = 48;
     @Input() article: Article;
-    @ViewChild("image") imageRef: ElementRef;
-    @ViewChild("title") titleRef: ElementRef;
-    @ViewChild("imageContainer") imageContainerRef: ElementRef;
+    @ViewChild("image", { static: false }) imageRef: ElementRef;
+    @ViewChild("title", { static: false }) titleRef: ElementRef;
+    @ViewChild("imageContainer", { static: false }) imageContainerRef: ElementRef;
 
     slug = "noticias";
     isLoaded = false;
@@ -27,9 +29,9 @@ export class NewsDetailsComponent implements OnInit, AfterContentInit {
     offset: number;
     dockedLabelOpacity = 0;
     dockedLabelTextOpacity = 0;
-    viewLoaded = false;
 
-    constructor(public api: NewsApiService, private animationsService: AnimationsService) {
+    constructor(public api: NewsApiService, private animationsService: AnimationsService, private cdrchild: ChangeDetectorRef) {
+        super(cdrchild);
         this.offset = this.animationsService.animationOffset;
     }
 
@@ -39,12 +41,6 @@ export class NewsDetailsComponent implements OnInit, AfterContentInit {
 
     ngOnInit(): void {
         this.imageUrl = this.api.getImageUrl(this.slug, this.article.image_file_name) || this.api.defaultImage;
-    }
-
-    ngAfterContentInit() {
-        setTimeout(() => {
-            this.viewLoaded = true;
-        }, 500);
     }
 
     animateOut(view: View) {
@@ -65,8 +61,11 @@ export class NewsDetailsComponent implements OnInit, AfterContentInit {
     }
 
     onScroll(args: ScrollEventData) {
-        const imageContainer = this.imageContainerRef.nativeElement;
+        if (args.scrollY <= 0) {
+            return false;
+        }
 
+        const imageContainer = this.imageContainerRef.nativeElement;
         const offset = args.scrollY < 0 ? 0 : args.scrollY;
         const imageHeight = imageContainer.getActualSize().height;
 

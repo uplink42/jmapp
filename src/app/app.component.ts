@@ -15,11 +15,10 @@ export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions) {
-        // Use the component constructor to inject services.
     }
 
     ngOnInit(): void {
-        this._activatedUrl = "/home";
+        this._activatedUrl = "/main";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
         this.router.events

@@ -2,11 +2,16 @@
     <ListView #list [items]="items" (loadMoreItems)="loadMoreItems()">
         <ng-template let-item="item">
             <GridLayout class="list-item" (tap)="navigateTo($event, item)">
-                <Image [src]="api.getImageUrl(slug, item.image_file_name) || api.defaultImage"></Image>
+                <FrescoDrawee #drawee verticalAlignment="center"
+                    placeholderImageUri="res://ns_logo"
+                    aspectRatio="2"
+                     [imageUri]="api.getImageUrl(slug, item.image_file_name) || api.defaultImage"></FrescoDrawee>
                 <Label [text]="item.titulo" class="item-title" textWrap="true"></Label>
             </GridLayout>
         </ng-template>
     </ListView>
+
+    <!-- <Label text="{{ items | json }}"></Label> -->
     <AbsoluteLayout #animatingImageContainer opacity="0" class="animating-image-container">
         <Image #animatingImage width="100%"></Image>
     </AbsoluteLayout>

@@ -1,19 +1,22 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterContentInit, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "Base",
     moduleId: module.id,
     templateUrl: "./base.component.html",
 })
-export class BaseComponent implements OnInit, AfterViewInit {
+export class BaseComponent implements OnInit, AfterContentInit {
     viewLoaded = false;
+
+    constructor(private cdr: ChangeDetectorRef) {}
 
     // tslint:disable-next-line:no-empty
     ngOnInit() {}
 
-    ngAfterViewInit() {
+    ngAfterContentInit() {
         setTimeout(() => {
             this.viewLoaded = true;
+            this.cdr.detectChanges();
         });
     }
 }
