@@ -18,6 +18,7 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterContent
     title: string = "JM Madeira";
     categories: Category[];
     articles: { [key: number]: Article[] } = {};
+    entryArticles: Article[] = [];
     tabSelectedIndex: number = 0;
     loadedCategories: number[] = [];
 
@@ -27,9 +28,11 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterContent
 
     ngOnInit(): void {
         this.categories = this.news.getCategories();
+
         const initialCategory = this.categories[0].id;
 
         this.getCategoryNews(initialCategory);
+        this.getEntryNews();
     }
 
     getCategoryIndex(idCategory: number) {
@@ -39,17 +42,31 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterContent
     }
 
     getCategoryId(index: number) {
-        return this.categories[index].id;
+        return this.categories[index].id - 1; // offset by 1 due to entry articles
     }
 
     onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
         if (args.oldIndex !== -1) {
             const index = args.newIndex;
             this.tabSelectedIndex = index;
+            console.log("tab index", index);
             const id = this.getCategoryId(index);
 
             this.getCategoryNews(id);
         }
+    }
+
+    getEntryNews() {
+        this.news.getEntryArticles().then(articles => {
+           // console.log(articles.length);
+            this.entryArticles = articles;
+        });
+    }
+
+    loadMoreEntryArticles(skip: number) {
+        this.news.getEntryArticles(skip).then(entryArticles => {
+            this.entryArticles = [...this.entryArticles, ...entryArticles];
+        });
     }
 
     getCategoryNews(idCategory: number) {

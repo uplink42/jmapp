@@ -1,12 +1,25 @@
 <CustomActionBar [title]="title"></CustomActionBar>
 
 <TabView [selectedIndex]="tabSelectedIndex" (selectedIndexChanged)="onSelectedIndexChanged($event)" (loaded)="onTabViewLoaded($event)">
-    <ng-container *ngFor="let article of news.articles[idCategory]">
-        <StackLayout *tabItem="{title: article.codigo}">
-            <!-- *ngIf="isArticleLoaded(article.codigo)" -->
-            <StackLayout>
-                <NewsDetails [article]="article"></NewsDetails>
+    <ng-container *ngIf="idCategory">
+        <ng-container *ngFor="let article of news.articles[idCategory]">
+            <StackLayout *tabItem="{title: article.codigo}">
+                <!-- *ngIf="isArticleLoaded(article.codigo)" -->
+                <StackLayout>
+                    <NewsDetails [article]="article"></NewsDetails>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="!idCategory">
+        <ng-container *ngFor="let article of news.entryArticles">
+            <StackLayout *tabItem="{title: article.codigo}">
+                <!-- *ngIf="isArticleLoaded(article.codigo)" -->
+                <StackLayout>
+                    <NewsDetails [article]="article"></NewsDetails>
+                </StackLayout>
+            </StackLayout>
+        </ng-container>
     </ng-container>
 </TabView>

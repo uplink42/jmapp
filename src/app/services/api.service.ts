@@ -11,7 +11,7 @@ export class NewsApiService {
     constructor(private http: HttpClient) {}
 
     getHeadlines(skip: number = 0) {
-        return this.sendRequest("get_artigos_entrada", null, skip);
+        return this.sendRequest("get_artigos_entrada", skip, null);
     }
 
     getRegionArticles(skip: number = 0) {

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { RouterExtensions } from "nativescript-angular/router";
 import { Article } from "~/app/models/article.model";
 import { NewsApiService } from "~/app/services/api.service";
+import { itemsPerPage } from "./../../config/api";
 
 @Component({
     selector: "NewsList",
@@ -12,7 +13,7 @@ import { NewsApiService } from "~/app/services/api.service";
 })
 export class NewsListComponent implements OnInit {
     @Input() items;
-    @Input() itemsPerPage = 20;
+    @Input() itemsPerPage = itemsPerPage;
     @Input() slug = "noticias";
     @Input() category: number;
     @Output() load = new EventEmitter();
