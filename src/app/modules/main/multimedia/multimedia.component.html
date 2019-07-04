@@ -1,1 +1,7 @@
-<Label text="multimedia"></Label>
+<CustomActionBar [title]="title"></CustomActionBar>
+
+<GridLayout class="page page-content" *ngIf="viewLoaded">
+    <StackLayout>
+        <NewsList [items]="multimedia" (load)="loadMoreMultimedia($event)" category="multimedia" slug="multimedia"></NewsList>
+    </StackLayout>
+</GridLayout>

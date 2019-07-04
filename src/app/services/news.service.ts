@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Article } from "~/app/models/article.model";
 import { Category } from "~/app/models/category.model";
+import { Multimedia } from "./../models/multimedia.model";
 import { NewsApiService } from "./api.service";
 import { CategoryService } from "./category.service";
 
@@ -14,6 +15,8 @@ export class NewsService {
 
     articleOffsets: { [key: number]: number } = {};
     entryArticleOffset: number;
+
+    multimedias: Multimedia[] = [];
 
     constructor(private categoryService: CategoryService, private api: NewsApiService) {
         this.categories = this.categoryService.getCategories();
@@ -43,7 +46,17 @@ export class NewsService {
             this.entryArticles      = articles;
             this.entryArticleOffset = Math.max(this.entryArticleOffset || 0, skip);
 
-            return this.entryArticles = articles;
+            return articles;
+        });
+    }
+
+    getMultimediaArticles(skip = 0) {
+        return this.api.getMultimedia(skip).then(response => {
+            const multimedias = [...this.multimedias, ...response];
+            this.multimedias = multimedias;
+            // this.entryArticleOffset = Math.max(this.entryArticleOffset || 0, skip);
+
+            return multimedias;
         });
     }
 

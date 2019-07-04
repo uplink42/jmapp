@@ -1,15 +1,9 @@
 <CustomActionBar [title]="title"></CustomActionBar>
 
 <GridLayout class="page page-content" *ngIf="viewLoaded">
-    <TabView
-    [(ngModel)]="tabSelectedIndex"
-    class="main"
-    tabBackgroundColor="#ce242b"
-    androidSelectedTabHighlightColor="#FFF"
-    tabTextColor="#FFF"
-    selectedTabTextColor="#FFF"
-    tabTextFontSize="14"
-    (selectedIndexChanged)="onSelectedIndexChanged($event)">
+    <TabView [(ngModel)]="tabSelectedIndex" class="main" tabBackgroundColor="#ce242b"
+        androidSelectedTabHighlightColor="#FFF" tabTextColor="#FFF" selectedTabTextColor="#FFF" tabTextFontSize="14"
+        (selectedIndexChanged)="onSelectedIndexChanged($event)">
         <StackLayout *tabItem="{title: 'Entrada'}">
             <StackLayout>
                 <NewsList [items]="entryArticles" (load)="loadMoreEntryArticles($event)" category="0"></NewsList>
@@ -18,14 +12,14 @@
 
         <ng-container *ngFor="let category of categories">
             <StackLayout *tabItem="{title: category.name}">
-                <!-- *ngIf="isCategoryLoaded(category.id)"  -->
                 <StackLayout>
                     <NewsList [items]="articles[category.id]" (load)="loadMoreArticles($event)"
-                    [category]="category.id"></NewsList>
+                        [category]="category.id"></NewsList>
                 </StackLayout>
             </StackLayout>
         </ng-container>
     </TabView>
 
-    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator" [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator"
+        [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
 </GridLayout>

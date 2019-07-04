@@ -23,8 +23,8 @@
 
                 <StackLayout row="3" colSpan="3">
                     <Button class="btn btn-primary btn-active" id="button" text="Ler mais" (tap)="loadContent()" *ngIf="!isLoaded"></Button>
-                    <HtmlView *ngIf="isLoaded" [html]="article.conteudo_noticia" #articleBody textWrap="true"
-                    class="article-description"></HtmlView>
+                    <WebView *ngIf="isLoaded" [src]="article.conteudo_noticia" #articleBody textWrap="true"
+                    class="article-description"></WebView>
                 </StackLayout>
             </GridLayout>
         </StackLayout>

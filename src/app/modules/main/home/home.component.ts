@@ -42,30 +42,31 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterContent
     }
 
     getCategoryId(index: number) {
-        return this.categories[index].id - 1; // offset by 1 due to entry articles
+        return this.categories[index - 1].id; // offset by 1 due to entry articles
     }
 
     onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
         if (args.oldIndex !== -1) {
             const index = args.newIndex;
-            this.tabSelectedIndex = index;
-            console.log("tab index", index);
-            const id = this.getCategoryId(index);
+            if (index <= 0) {
+                return;
+            }
 
+            this.tabSelectedIndex = index;
+            const id = this.getCategoryId(index);
             this.getCategoryNews(id);
         }
     }
 
     getEntryNews() {
         this.news.getEntryArticles().then(articles => {
-           // console.log(articles.length);
             this.entryArticles = articles;
         });
     }
 
     loadMoreEntryArticles(skip: number) {
         this.news.getEntryArticles(skip).then(entryArticles => {
-            this.entryArticles = [...this.entryArticles, ...entryArticles];
+            this.entryArticles = entryArticles;
         });
     }
 

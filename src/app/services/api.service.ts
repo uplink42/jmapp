@@ -14,6 +14,10 @@ export class NewsApiService {
         return this.sendRequest("get_artigos_entrada", skip, null);
     }
 
+    getMultimedia(skip = 0) {
+        return this.sendRequest("get_multimedias", 25, skip);
+    }
+
     getRegionArticles(skip: number = 0) {
         return this.sendRequest("get_noticias_categoria", 1, skip);
     }

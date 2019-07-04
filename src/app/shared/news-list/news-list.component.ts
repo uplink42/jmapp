@@ -34,6 +34,8 @@ export class NewsListComponent implements OnInit {
     }
 
     navigateTo(event, article: Article) {
-        this.router.navigate([`/main/details/${this.category}/${article.codigo}`]);
+        if (this.category) {
+            this.router.navigate([`/main/details/${this.category}/${article.codigo}`]);
+        }
     }
 }
