@@ -34,6 +34,13 @@ export class NewsListComponent implements OnInit {
     }
 
     navigateTo(event, article: Article) {
+        console.log(this.slug);
+        if (this.slug === "multimedia") {
+            this.router.navigate([`/main/multimediadetails/${article.codigo}`]);
+
+            return;
+        }
+
         if (this.category) {
             this.router.navigate([`/main/details/${this.category}/${article.codigo}`]);
         }

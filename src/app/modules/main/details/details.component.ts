@@ -110,11 +110,6 @@ export class DetailsComponent extends BaseComponent implements OnInit {
                 this.loadAdjacentArticles();
                 this.getLocalArticleData();
             }
-
-            // if we are near the end (last page), fetch next page
-            /*if (this.news.isLastArticle(this.idArticle, this.idCategory)) {
-                this.loadNextRemotePage().then(() => this.onSelectedIndexChanged(args));
-            }*/
         }
     }
 

@@ -18,12 +18,12 @@
                     <Label [text]="article.autor_nome" class="article-stat-label"></Label>
                 </StackLayout>
 
-                <HtmlView [html]="article.introducao" #articleDescription row="2" colSpan="3" textWrap="true" [text]="article.introducao"
+                <HtmlView color="gray" [html]="article.introducao" #articleDescription row="2" colSpan="3" textWrap="true" [text]="article.introducao"
                 class="article-description"></HtmlView>
 
                 <StackLayout row="3" colSpan="3">
-                    <Button class="btn btn-primary btn-active" id="button" text="Ler mais" (tap)="loadContent()" *ngIf="!isLoaded"></Button>
-                    <WebView *ngIf="isLoaded" [src]="article.conteudo_noticia" #articleBody textWrap="true"
+                    <Button class="btn btn-primary btn-active" id="button" text="Ler mais" (tap)="loadContent()" *ngIf="!hasDescription"></Button>
+                    <WebView *ngIf="hasDescription" [src]="article.conteudo_noticia! + getWVStyles()" #articleBody textWrap="true"
                     class="article-description"></WebView>
                 </StackLayout>
             </GridLayout>
@@ -34,5 +34,8 @@
         <Label [text]="article.titulo" [opacity]="dockedLabelTextOpacity" class="docked-label-text"></Label>
     </GridLayout>
 
-    <ActivityIndicator [busy]="!isLoaded" width="50" height="50" class="activity-indicator" [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
+    <ActivityIndicator [busy]="!viewLoaded" width="50" height="50" class="activity-indicator" [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
+
+    <ActivityIndicator [busy]="loading" width="50" height="50" class="activity-indicator"
+        [visibility]="!loading ? 'collapse' : 'visible'"></ActivityIndicator>
 </GridLayout>

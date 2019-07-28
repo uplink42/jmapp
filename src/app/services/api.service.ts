@@ -15,7 +15,7 @@ export class NewsApiService {
     }
 
     getMultimedia(skip = 0) {
-        return this.sendRequest("get_multimedias", 25, skip);
+        return this.sendRequest("get_multimedias", 20, skip);
     }
 
     getRegionArticles(skip: number = 0) {
@@ -35,9 +35,14 @@ export class NewsApiService {
     }
 
     private sendRequest(endpoint: string, id: number | null = null, skip: number | null = null): Promise<any> {
-        console.log(`${apiConfig.baseUrl}/${endpoint}/${id}/${skip}`);
         if (id) {
-            return this.http.get(`${apiConfig.baseUrl}/${endpoint}/${id}/${skip}`).toPromise();
+            if (endpoint === "get_multimedias") {
+                console.log(skip);
+                console.log(`${apiConfig.baseUrl}/${endpoint}/${skip}/${id}`);
+                return this.http.get(`${apiConfig.baseUrl}/${endpoint}/${skip}/${id}`).toPromise();
+            } else {
+                return this.http.get(`${apiConfig.baseUrl}/${endpoint}/${id}/${skip}`).toPromise();
+            }
         } else {
             return this.http.get(`${apiConfig.baseUrl}/${endpoint}/${skip}`).toPromise();
         }

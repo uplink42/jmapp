@@ -1,0 +1,43 @@
+<CustomActionBar title="Multimedia"></CustomActionBar>
+
+<TabView [selectedIndex]="tabSelectedIndex" (selectedIndexChanged)="onSelectedIndexChanged($event)"
+    (loaded)="onTabViewLoaded($event)">
+    <ng-container *ngFor="let multimedia of news.multimedias">
+        <StackLayout *tabItem="{title: multimedia.codigo}">
+            <StackLayout>
+                <GridLayout>
+                    <ScrollView>
+                        <StackLayout *ngIf="multimedia">
+                            <GridLayout #imageContainer backgroundColor="#000000" class="header-background-view" class="article-header">
+                                <FrescoDrawee #image verticalAlignment="center" placeholderImageUri="res://ns_logo" aspectRatio="2"
+                                    [imageUri]="imageUrl"></FrescoDrawee>
+                            </GridLayout>
+
+                            <GridLayout #articleLayout rows="auto,auto,auto,auto" columns="auto,auto,*" class="article-content">
+
+                                <Label #title colSpan="3" textWrap="true" [text]="multimedia.titulo" class="article-name"></Label>
+
+                                <StackLayout #articleStat row="1" col="2" orientation="horizontal">
+                                    <Label [text]="multimedia.autor" class="article-stat-label"></Label>
+                                </StackLayout>
+
+                                <HtmlView [html]="multimedia.introducao" #articleDescription row="2" colSpan="3" textWrap="true"
+                                    [text]="multimedia.introducao" class="article-description"></HtmlView>
+
+                                <StackLayout row="3" colSpan="3">
+                                    <Button class="btn btn-primary btn-active" id="button" text="Ler mais"
+                                        *ngIf="!isLoaded"></Button>
+                                    <!-- <WebView *ngIf="isLoaded" [src]="multimedia.introducao" #articleBody textWrap="true"
+                                        class="article-description"></WebView> -->
+                                </StackLayout>
+                            </GridLayout>
+                        </StackLayout>
+                    </ScrollView>
+
+                    <ActivityIndicator [busy]="!isLoaded" width="50" height="50" class="activity-indicator"
+                        [visibility]="viewLoaded ? 'collapse' : 'visible'"></ActivityIndicator>
+                </GridLayout>
+            </StackLayout>
+        </StackLayout>
+    </ng-container>
+</TabView>

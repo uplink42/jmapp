@@ -23,7 +23,8 @@ export class NewsDetailsComponent extends BaseComponent implements OnInit, After
     @ViewChild("imageContainer", { static: false }) imageContainerRef: ElementRef;
 
     slug = "noticias";
-    isLoaded = false;
+    hasDescription = false;
+    loading = false;
     imageUrl: string;
     imageOpacity = 1;
     offset: number;
@@ -41,6 +42,11 @@ export class NewsDetailsComponent extends BaseComponent implements OnInit, After
 
     ngOnInit(): void {
         this.imageUrl = this.api.getImageUrl(this.slug, this.article.image_file_name) || this.api.defaultImage;
+        this.removeIntroHtml();
+    }
+
+    removeIntroHtml() {
+        this.article.introducao = this.article.introducao!.replace("<p>", "").replace("</p>", "");
     }
 
     animateOut(view: View) {
@@ -48,6 +54,17 @@ export class NewsDetailsComponent extends BaseComponent implements OnInit, After
             opacity: 0,
             duration: 200,
         });
+    }
+
+    getWVStyles() {
+        return `<style>
+                    * {
+                        color: gray;
+                        font-size: 14px;
+                        margin: 0;
+                        padding: 0;
+                    }
+                </style>`;
     }
 
     animateIn(view: View, duration: number, delay: number) {
@@ -75,9 +92,13 @@ export class NewsDetailsComponent extends BaseComponent implements OnInit, After
     }
 
     loadContent() {
+        this.loading = true;
         this.api.getArticle(+this.article.codigo).then(article => {
             this.article = article;
-            this.isLoaded = true;
+            this.removeIntroHtml();
+            this.hasDescription = true;
+            this.loading = false;
+            this.cdrchild.markForCheck();
         });
     }
 

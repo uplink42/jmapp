@@ -2,10 +2,10 @@
   "nativescript": {
     "id": "org.nativescript.jmapp",
     "tns-ios": {
-      "version": "6.0.1"
+      "version": "5.0.0"
     },
     "tns-android": {
-      "version": "6.0.0"
+      "version": "5.4.0"
     }
   },
   "description": "NativeScript Application",
@@ -27,10 +27,11 @@
     "nativescript-angular": "^8.0.0",
     "nativescript-fresco": "^5.2.0",
     "nativescript-theme-core": "~1.0.4",
-    "nativescript-ui-sidedrawer": "7.0.0",
+    "nativescript-ui-sidedrawer": "~5.0.0",
     "reflect-metadata": "~0.1.10",
     "rxjs": "^6.3.3",
-    "tns-core-modules": "6.0.1",
+    "tns-core-modules": "^5.4.2",
+    "typescript": "~3.4.5",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -38,11 +39,11 @@
     "@nativescript/schematics": "~0.4.0",
     "@ngtools/webpack": "8.0.0",
     "codelyzer": "~4.5.0",
-    "nativescript-dev-webpack": "1.0.1",
-    "tns-platform-declarations": "6.0.1",
-    "tslint": "~5.11.0",
-    "node-sass": "4.12.0",
-    "typescript": "3.4.5"
+    "nativescript-dev-sass": "~1.6.0",
+    "nativescript-dev-typescript": "^0.10.0",
+    "nativescript-dev-webpack": "^0.24.1",
+    "tns-platform-declarations": "^5.0.5",
+    "tslint": "~5.11.0"
   },
   "readme": "NativeScript Application"
 }

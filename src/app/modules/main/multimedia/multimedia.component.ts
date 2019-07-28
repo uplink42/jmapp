@@ -19,6 +19,7 @@ export class MultimediaComponent extends BaseComponent implements OnInit, AfterC
 
     ngOnInit() {
         this.getMultimediaContent();
+        console.log(1);
     }
 
     getMultimediaContent() {

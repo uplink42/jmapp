@@ -1,5 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { MultimediaDetailsComponent } from "./multimedia-details/multimedia-details.component";
 
 import { SharedModule } from "~/app/shared/shared.module";
 import { DetailsComponent } from "./details/details.component";
@@ -23,6 +24,7 @@ if (module['hot']) {
         HomeComponent,
         DetailsComponent,
         MultimediaComponent,
+        MultimediaDetailsComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA,

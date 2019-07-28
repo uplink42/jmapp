@@ -53,7 +53,6 @@ export class NewsService {
     getMultimediaArticles(skip = 0) {
         return this.api.getMultimedia(skip).then(response => {
             const multimedias = [...this.multimedias, ...response];
-            this.multimedias = multimedias;
             // this.entryArticleOffset = Math.max(this.entryArticleOffset || 0, skip);
 
             return multimedias;

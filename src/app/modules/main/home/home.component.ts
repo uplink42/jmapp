@@ -27,6 +27,7 @@ export class HomeComponent extends BaseComponent implements OnInit, AfterContent
     }
 
     ngOnInit(): void {
+        console.log(1);
         this.categories = this.news.getCategories();
 
         const initialCategory = this.categories[0].id;

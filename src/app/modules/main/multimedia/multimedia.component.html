@@ -2,6 +2,6 @@
 
 <GridLayout class="page page-content" *ngIf="viewLoaded">
     <StackLayout>
-        <NewsList [items]="multimedia" (load)="loadMoreMultimedia($event)" category="multimedia" slug="multimedia"></NewsList>
+        <NewsList [items]="multimedia" (load)="loadMoreMultimedia($event)" slug="multimedia"></NewsList>
     </StackLayout>
 </GridLayout>
